@@ -82,3 +82,25 @@ body {
 .add-btn:hover {
   background-color: #0b7dda;
 }
+
+.remove-btn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.clear-cart-btn {
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #ff5722;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
