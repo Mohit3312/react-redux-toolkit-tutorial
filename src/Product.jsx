@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, removeItem } from "./redux/slice";
 import { useEffect } from "react";
 import { fetchProducts } from "./redux/productSlice";
 
@@ -10,83 +9,25 @@ const Product = () => {
     dispatch(fetchProducts());
   }, []);
 
-  const selector = useSelector((state) => state.products.items);
-  console.log(selector);
+  const productsSelector = useSelector((state) => state.products.items);
+  console.log(productsSelector);
 
   return (
-    <section className="product-container">
-      <div className="product-card">
-        <img src="https://via.placeholder.com/250" alt="Product" />
-        <h2>Smart Headphones</h2>
-        <p className="price">₹1,999</p>
-        <button
-          className="add-btn"
-          onClick={() => {
-            dispatch(addItem(1));
-            console.log("Clicked");
-          }}
-        >
-          Add to Cart
-        </button>
-        <button
-          className="remove-btn"
-          onClick={() => {
-            dispatch(removeItem(1));
-            console.log("Clicked");
-          }}
-        >
-          Remove from Cart
-        </button>
-      </div>
-
-      <div className="product-card">
-        <img src="https://via.placeholder.com/250" alt="Product" />
-        <h2>Wireless Mouse</h2>
-        <p className="price">₹599</p>
-        <button
-          className="add-btn"
-          onClick={() => {
-            dispatch(addItem(1));
-            console.log("Clicked");
-          }}
-        >
-          Add to Cart
-        </button>
-        <button
-          className="remove-btn"
-          onClick={() => {
-            dispatch(removeItem(1));
-            console.log("Clicked");
-          }}
-        >
-          Remove from Cart
-        </button>
-      </div>
-
-      <div className="product-card">
-        <img src="https://via.placeholder.com/250" alt="Product" />
-        <h2>Smartwatch</h2>
-        <p className="price">₹2,499</p>
-        <button
-          className="add-btn"
-          onClick={() => {
-            dispatch(addItem(1));
-            console.log("Clicked");
-          }}
-        >
-          Add to Cart
-        </button>
-        <button
-          className="remove-btn"
-          onClick={() => {
-            dispatch(removeItem(1));
-            console.log("Clicked");
-          }}
-        >
-          Remove from Cart
-        </button>
-      </div>
-    </section>
+    <div className="grid">
+      {productsSelector.length &&
+        productsSelector.map((item) => (
+          <div className="card" key={item.id}>
+            <img src={item.thumbnail} />
+            <div className="content">
+              <div className="title">{item.title}</div>
+              <div className="brand">{item.brand}</div>
+              <div className="price">{item.price}</div>
+              <div className="rating">{item.rating}</div>
+              <button className="add-btn">Add To Cart</button>
+            </div>
+          </div>
+        ))}
+    </div>
   );
 };
 
