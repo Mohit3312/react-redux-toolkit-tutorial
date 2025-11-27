@@ -161,3 +161,11 @@ body {
   font-size: 13px;
   color: #999;
 }
+
+.add-btn-disable {
+  background-color: #ccc;
+}
+
+.add-btn-disable:hover {
+  background-color: #d63838;
+}
