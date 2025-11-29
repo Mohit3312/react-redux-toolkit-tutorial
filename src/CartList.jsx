@@ -1,16 +1,35 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearAllItems, removeItem } from "./redux/slice";
+import { useNavigate } from "react-router-dom";
 
 export default function CartList() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartSelector = useSelector((state) => state.cart.items);
   console.log(cartSelector);
 
   const [cartItems, setCartItems] = useState(cartSelector);
 
+  useEffect(() => () => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  });
+
+  useEffect(() => {
+    setCartItems(cartSelector);
+  }, [cartSelector]);
+
+  const handlePlaceOrder = () => {
+    alert("Order placed successfully!");
+    localStorage.clear();
+    dispatch(clearAllItems());
+    navigate("/");
+  };
+
   const manageQuantity = (itemId, q) => {
     let quantity = parseInt(q) > 1 ? parseInt(q) : 1;
 
-    const cartTempItems = cartSelector.map((item) =>
+    const cartTempItems = cartItems.map((item) =>
       item.id === itemId ? { ...item, quantity } : item
     );
 
@@ -51,24 +70,41 @@ export default function CartList() {
                           : item.price
                         ).toFixed(2)}
                       </span>
-                      <button className="remove-btn">Remove</button>
+                      <button
+                        className="remove-btn"
+                        onClick={() => dispatch(removeItem(item))}
+                      >
+                        Remove
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
             ))
           : null}
+
         <div className="cart-footer">
-          Total: $
-          {cartItems
-            .reduce(
-              (sum, item) =>
-                item.quantity
-                  ? sum + item.price * item.quantity
-                  : sum + item.price,
-              0
-            )
-            .toFixed(2)}
+          <div>
+            <button
+              className="add-btn"
+              disabled={cartItems.length === 0}
+              onClick={handlePlaceOrder}
+            >
+              Place Order
+            </button>
+          </div>
+          <div>
+            Total: $
+            {cartItems
+              .reduce(
+                (sum, item) =>
+                  item.quantity
+                    ? sum + item.price * item.quantity
+                    : sum + item.price,
+                0
+              )
+              .toFixed(2)}
+          </div>
         </div>
       </div>
     </>

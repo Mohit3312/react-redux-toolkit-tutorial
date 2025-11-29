@@ -241,7 +241,8 @@ header nav ul li a {
 }
 
 .cart-footer {
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
   margin: 15px 0;
   font-weight: bold;
   color: green;
